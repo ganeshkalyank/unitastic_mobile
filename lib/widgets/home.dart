@@ -14,7 +14,7 @@ class HomeWidget extends StatelessWidget {
             SvgPicture.asset(
               'assets/images/collegestudents.svg',
               semanticsLabel: 'College Students',
-              width: 250,
+              width: 300,
             ),
             const SizedBox(height: 16),
             Text(
