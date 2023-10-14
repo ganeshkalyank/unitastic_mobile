@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unitastic_mobile/widgets/home.dart';
+import 'package:unitastic_mobile/widgets/materials.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,16 +10,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _selectedIndex = 0;
+
   final List<Widget> _widgets = [
     const HomeWidget(),
-    Container(),
-    Container(),
-    Container(),
+    const MaterialsWidget(),
+    const Center(
+      child: Text('Coming soon...'),
+    ),
+    const Center(
+      child: Text('Coming soon...'),
+    ),
   ];
+
   @override
   Widget build(BuildContext context) {
+    final controller = PageController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Unitastic',
@@ -28,7 +36,15 @@ class _HomePageState extends State<HomePage> {
         ),
         scrolledUnderElevation: 0,
       ),
-      body: _widgets[_selectedIndex],
+      body: PageView(
+        controller: controller,
+        children: _widgets,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
@@ -38,6 +54,17 @@ class _HomePageState extends State<HomePage> {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
+          iconTheme: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return const IconThemeData(
+                    color: Colors.white,
+                  );
+                }
+                return Theme.of(context).iconTheme.copyWith(
+                  color: Theme.of(context).colorScheme.secondary,
+                );
+            },
+          ),
           indicatorColor: Theme.of(context).colorScheme.tertiary,
         ),
         child: NavigationBar(
@@ -46,42 +73,23 @@ class _HomePageState extends State<HomePage> {
             setState(() {
               _selectedIndex = index;
             });
+            controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.ease);
           },
-          destinations: [
+          destinations: const [
             NavigationDestination(
-              icon: Icon(
-                  Icons.home,
-                color: _selectedIndex == 0
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.secondary,
-              ),
+              icon: Icon(Icons.home),
               label: 'Home',
             ),
             NavigationDestination(
-              icon: Icon(
-                Icons.book,
-                color: _selectedIndex == 1
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.secondary,
-              ),
+              icon: Icon(Icons.book),
               label: 'Materials',
             ),
             NavigationDestination(
-              icon: Icon(
-                Icons.calculate,
-                color: _selectedIndex == 2
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.secondary,
-              ),
+              icon: Icon(Icons.calculate),
               label: 'Utilities',
             ),
             NavigationDestination(
-              icon: Icon(
-                Icons.group,
-                color: _selectedIndex == 3
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.secondary,
-              ),
+              icon: Icon(Icons.group),
               label: 'About',
             ),
           ],
