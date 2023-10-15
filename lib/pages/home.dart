@@ -89,8 +89,8 @@ class _HomePageState extends State<HomePage> {
               label: 'Utilities',
             ),
             NavigationDestination(
-              icon: Icon(Icons.group),
-              label: 'About',
+              icon: Icon(Icons.more_horiz),
+              label: 'More',
             ),
           ],
         ),

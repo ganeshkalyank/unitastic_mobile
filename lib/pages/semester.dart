@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SemesterPage extends StatefulWidget {
   const SemesterPage({super.key, required this.semesterid});
@@ -12,22 +13,61 @@ class SemesterPage extends StatefulWidget {
 }
 
 class _SemesterPageState extends State<SemesterPage> {
+  late Future<List<Map<String,dynamic>>> _materials;
+  late Future<String> _title;
 
-  getStream() {
+  Future<List<Map<String,dynamic>>> _getMaterials() async {
     final db = FirebaseFirestore.instance;
-    final deptsRef = db.collection('semesters').doc(widget.semesterid).collection('depts');
     final subjectsRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
-    if (widget.semesterid == 'L2VjryF74kls5LR4ZiYU' || widget.semesterid == 'fE8kQXlfVFbD9SpU25Qt') {
-      return subjectsRef.orderBy('name').snapshots();
+    final subjects = await subjectsRef.orderBy('name').get();
+    final departmentsRef = db.collection('semesters').doc(widget.semesterid).collection('depts');
+    final departments = await departmentsRef.orderBy('name').get();
+    final List<Map<String,dynamic>> materials = [];
+    if (subjects.size > 0) {
+      for (var subject in subjects.docs) {
+        final subjectData = subject.data();
+        materials.add({
+          'id': subject.id,
+          'name': subjectData['name'],
+          'description': subjectData['description'],
+          'url': subjectData['url'],
+        });
+      }
     } else {
-      return deptsRef.orderBy('name').snapshots();
+      for (var department in departments.docs) {
+        final departmentData = department.data();
+        materials.add({
+          'id': department.id,
+          'name': departmentData['name'],
+          'description': departmentData['description'],
+          'url': departmentData['url'],
+        });
+      }
     }
+    return materials;
   }
 
-  _openMaterial(String url) async {
+  Future<String> _getTitle() async {
+    final db = FirebaseFirestore.instance;
+    final semestersRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
+    final semester = await semestersRef.get();
+    if (semester.size > 0) {
+      return 'Select Subject';
+    }
+    return 'Select Department';
+  }
+
+  Future<void> _openMaterial(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw 'Could not launch $url';
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _materials = _getMaterials();
+    _title = _getTitle();
   }
 
   @override
@@ -51,36 +91,60 @@ class _SemesterPageState extends State<SemesterPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(
-              widget.semesterid == 'L2VjryF74kls5LR4ZiYU' ||
-              widget.semesterid == 'fE8kQXlfVFbD9SpU25Qt'
-                  ? 'Select Subject' : 'Select Department',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 16),
-            StreamBuilder(
-                stream: getStream(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.tertiary,
+        child: FutureBuilder(
+            future: _materials,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                );
+              }
+              if (snapshot.hasError || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/error.svg',
+                        width: 300,
                       ),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                      const SizedBox(height: 16),
+                      Text(
+                        'Error fetching data!',
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  FutureBuilder(
+                    future: _title,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return Text(
+                        snapshot.data.toString(),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ListView.builder(
+                    itemCount: snapshot.data!.length,
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      DocumentSnapshot subject = snapshot.data!.docs[index];
-                      final subjectData = subject.data() as Map<String, dynamic>;
+                      final subject = snapshot.data![index];
                       return Card(
                         surfaceTintColor: Colors.white,
                         clipBehavior: Clip.hardEdge,
@@ -91,7 +155,7 @@ class _SemesterPageState extends State<SemesterPage> {
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
-                          subtitle: subjectData.containsKey('description') && subject['description']!=''?Text(
+                          subtitle: subject['description'] != null && subject['description'] != '' ? Text(
                             subject['description'],
                             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: Theme.of(context).colorScheme.primary,
@@ -121,10 +185,10 @@ class _SemesterPageState extends State<SemesterPage> {
                         ),
                       );
                     },
-                  );
-                }
-            ),
-          ],
+                  ),
+                ],
+              );
+            },
         ),
       ),
     );
