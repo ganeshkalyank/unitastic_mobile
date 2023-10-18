@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unitastic_mobile/widgets/home.dart';
 import 'package:unitastic_mobile/widgets/materials.dart';
+import 'package:unitastic_mobile/widgets/more.dart';
+import 'package:unitastic_mobile/widgets/utilities.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,12 +17,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _widgets = [
     const HomeWidget(),
     const MaterialsWidget(),
-    const Center(
-      child: Text('Coming soon...'),
-    ),
-    const Center(
-      child: Text('Coming soon...'),
-    ),
+    UtilitiesWidget(),
+    const MoreWidget(),
   ];
 
   @override
