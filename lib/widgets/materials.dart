@@ -38,88 +38,91 @@ class _MaterialsWidgetState extends State<MaterialsWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
       child: FutureBuilder(
           future: _materials,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
+              return LinearProgressIndicator(
+                color: Theme.of(context).colorScheme.tertiary,
               );
             }
             if (snapshot.hasError || snapshot.data!.isEmpty) {
-              return Center(
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/error.svg',
-                      width: 300,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Error fetching data!',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/error.svg',
+                        width: 300,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                      const SizedBox(height: 16),
+                      Text(
+                        'Error fetching data!',
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
-            return Column(
-              children: [
-                Text(
-                  'Select Semester',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Select Semester',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final semester = snapshot.data![index];
-                    return Card(
-                      surfaceTintColor: Colors.white,
-                      clipBehavior: Clip.hardEdge,
-                      child: ListTile(
-                        title: Text(
-                          semester['name'],
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        subtitle: semester['description']!=null && semester['description']!=''?Text(
-                          semester['description'],
-                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ) : null,
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SemesterPage(
-                                semesterid: semester['id'],
-                              ),
+                  const SizedBox(height: 16),
+                  ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final semester = snapshot.data![index];
+                      return Card(
+                        surfaceTintColor: Colors.white,
+                        clipBehavior: Clip.hardEdge,
+                        child: ListTile(
+                          title: Text(
+                            semester['name'],
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
+                          ),
+                          subtitle: semester['description']!=null && semester['description']!=''?Text(
+                            semester['description'],
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ) : null,
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SemesterPage(
+                                  semesterid: semester['id'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             );
           },
       ),

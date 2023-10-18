@@ -27,6 +27,12 @@ final ThemeData mainTheme = ThemeData(
         fontWeight: FontWeight.w600,
       ),
     ),
+    titleSmall: GoogleFonts.josefinSans(
+      textStyle: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
     bodyMedium: GoogleFonts.josefinSans(
       textStyle: const TextStyle(
         fontSize: 16,
