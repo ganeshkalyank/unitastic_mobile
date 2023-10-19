@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SemesterPage extends StatefulWidget {
   const SemesterPage({super.key, required this.semesterid});
@@ -17,44 +18,116 @@ class _SemesterPageState extends State<SemesterPage> {
   late Future<String> _title;
 
   Future<List<Map<String,dynamic>>> _getMaterials() async {
+    final prefs = await SharedPreferences.getInstance();
+    DateTime lastUpdated = DateTime.parse(
+        prefs.getString('semester_${widget.semesterid}_lastupdated')
+            ?? '2000-01-01 00:00:00.000'
+    );
+    bool isDirty = DateTime.now().difference(lastUpdated).inHours > 24;
+
     final db = FirebaseFirestore.instance;
     final subjectsRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
-    final subjects = await subjectsRef.orderBy('name').get();
     final departmentsRef = db.collection('semesters').doc(widget.semesterid).collection('depts');
-    final departments = await departmentsRef.orderBy('name').get();
-    final List<Map<String,dynamic>> materials = [];
+    QuerySnapshot<Map<String, dynamic>> subjects;
+    QuerySnapshot<Map<String, dynamic>> departments;
+
+    if (isDirty) {
+      subjects = await subjectsRef.orderBy('name').get(
+        const GetOptions(source: Source.server),
+      );
+      departments = await departmentsRef.orderBy('name').get(
+        const GetOptions(source: Source.cache),
+      );
+      if (subjects.size == 0) {
+        departments = await departmentsRef.orderBy('name').get(
+          const GetOptions(source: Source.server),
+        );
+      }
+      await prefs.setString('semester_${widget.semesterid}_lastupdated', DateTime.now().toString());
+    } else {
+      subjects = await subjectsRef.orderBy('name').get(
+        const GetOptions(source: Source.cache),
+      );
+      departments = await departmentsRef.orderBy('name').get(
+        const GetOptions(source: Source.cache),
+      );
+      if (subjects.size == 0 && departments.size == 0) {
+        subjects = await subjectsRef.orderBy('name').get(
+          const GetOptions(source: Source.server),
+        );
+        if (subjects.size == 0) {
+          departments = await departmentsRef.orderBy('name').get(
+            const GetOptions(source: Source.server),
+          );
+        }
+      }
+    }
+
     if (subjects.size > 0) {
-      for (var subject in subjects.docs) {
+      return subjects.docs.map((subject) {
         final subjectData = subject.data();
-        materials.add({
+        return {
           'id': subject.id,
           'name': subjectData['name'],
           'description': subjectData['description'],
           'url': subjectData['url'],
-        });
-      }
+        };
+      }).toList();
     } else {
-      for (var department in departments.docs) {
+      return departments.docs.map((department) {
         final departmentData = department.data();
-        materials.add({
+        return {
           'id': department.id,
           'name': departmentData['name'],
           'description': departmentData['description'],
           'url': departmentData['url'],
-        });
-      }
+        };
+      }).toList();
     }
-    return materials;
   }
 
   Future<String> _getTitle() async {
+    final prefs = await SharedPreferences.getInstance();
+
     final db = FirebaseFirestore.instance;
-    final semestersRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
-    final semester = await semestersRef.get();
-    if (semester.size > 0) {
-      return 'Select Subject';
+    DateTime lastUpdated = DateTime.parse(
+        prefs.getString('semester_${widget.semesterid}_lastupdated')
+            ?? '2000-01-01 00:00:00.000'
+    );
+    bool isDirty = DateTime.now().difference(lastUpdated).inHours > 24;
+    if (isDirty) {
+      final subjectsRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
+      final subjects = await subjectsRef.get(
+        const GetOptions(source: Source.server),
+      );
+      if (subjects.size > 0) {
+        return 'Select Subject';
+      }
+      return 'Select Department';
+    } else {
+      final subjectsRef = db.collection('semesters').doc(widget.semesterid).collection('subjects');
+      var subjects = await subjectsRef.get(
+        const GetOptions(source: Source.cache),
+      );
+      final departments = await db.collection('semesters').doc(widget.semesterid).collection('depts').get(
+        const GetOptions(source: Source.cache),
+      );
+      if (subjects.size > 0) {
+        return 'Select Subject';
+      } else if (departments.size > 0) {
+        return 'Select Department';
+      } else if (subjects.size == 0 && departments.size == 0) {
+        subjects = await subjectsRef.get(
+          const GetOptions(source: Source.server),
+        );
+        if (subjects.size > 0) {
+          return 'Select Subject';
+        } else {
+          return 'Select Department';
+        }
+      }
     }
-    return 'Select Department';
+    return 'Select Subject';
   }
 
   Future<void> _openMaterial(String url) async {

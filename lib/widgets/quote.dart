@@ -44,54 +44,78 @@ class _QuoteWidgetState extends State<QuoteWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      child: Column(
-        children: [
-          Text(
-            'Random Thought',
-            style: Theme.of(context).textTheme.displayLarge!.copyWith(
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-          FutureBuilder<Quote> (
-              future: _quote,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
+    return FutureBuilder<Quote> (
+        future: _quote,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: LinearProgressIndicator(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            );
+          }
 
-                if (snapshot.data!.content == 'Error') {
-                  return const Text('Error');
-                }
-
-                return Column(
+          if (snapshot.data!.content == 'Error') {
+            return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text(
-                        snapshot.data!.content,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        textAlign: TextAlign.center,
+                    Text(
+                      'Random Thought',
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
+                    const SizedBox(height: 16.0),
                     Text(
-                      '- ${snapshot.data!.author}',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black54,
-                        fontStyle: FontStyle.italic,
+                      'Some error occurred!',
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ],
-                );
-              }
-          ),
-        ],
-      ),
+                ),
+            );
+          }
+
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+            width: MediaQuery.of(context).size.width,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text(
+                  'Random Thought',
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Text(
+                    snapshot.data!.content,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Text(
+                  '- ${snapshot.data!.author}',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black54,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
     );
   }
 }
