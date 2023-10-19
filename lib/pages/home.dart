@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:unitastic_mobile/widgets/home.dart';
 import 'package:unitastic_mobile/widgets/materials.dart';
 import 'package:unitastic_mobile/widgets/more.dart';
@@ -34,6 +35,9 @@ class _HomePageState extends State<HomePage> {
           _access = documentSnapshot['overall'];
         });
       }
+      FlutterNativeSplash.remove();
+    }).catchError((error) {
+      FlutterNativeSplash.remove();
     });
   }
 
