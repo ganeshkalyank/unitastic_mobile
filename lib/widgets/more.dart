@@ -12,6 +12,35 @@ class MoreWidget extends StatefulWidget {
 class _MoreWidgetState extends State<MoreWidget> {
   String _version = '';
   String _buildNumber = '';
+  final List<Map<String, String>> _usefulLinks = [
+    {
+      'title': 'Student Web Interface',
+      'url': 'https://webstream.sastra.edu/sastrapwi/',
+    },
+    {
+      'title': 'Parent Web Interface',
+      'url': 'https://webstream.sastra.edu/sastraparentweb/',
+    },
+    {
+      'title': 'Hostel Leave Portal',
+      'url': 'https://biometric.sastra.edu/',
+    },
+    {
+      'title': 'Academic Calendar',
+      'url': 'https://www.sastra.edu/downloads/menu/Academics/Academic_Calender_2023_24_TPJ.pdf',
+    },
+  ];
+
+  final List<Map<String, String>> _archives = [
+    {
+      'title': 'Materialbase',
+      'url': 'https://materialbase.github.io',
+    },
+    {
+      'title': 'Materialhub',
+      'url': 'https://linktr.ee/materialhub',
+    },
+  ];
 
   Future<void> _openUrl(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
@@ -164,17 +193,18 @@ class _MoreWidgetState extends State<MoreWidget> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          ListView(
+          ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              Card(
+            itemCount: _usefulLinks.length,
+            itemBuilder: (context, index) {
+              return Card(
                 surfaceTintColor: Colors.white,
                 clipBehavior: Clip.hardEdge,
                 child: ListTile(
                   title: Text(
-                    'Student Web Interface',
+                    _usefulLinks[index]['title']!,
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -184,128 +214,26 @@ class _MoreWidgetState extends State<MoreWidget> {
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   onTap: () {
-                    _openUrl('https://webstream.sastra.edu/sastrapwi/').catchError((e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Could not open URL!',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
+                    _openUrl(_usefulLinks[index]['url']!).catchError((e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Center(
+                            child: Text(
+                              'Could not open URL!',
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Colors.white,
                               ),
-                              backgroundColor: Theme.of(context).colorScheme.tertiary,
                             ),
-                          );
-                        },
+                          ),
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
                       );
+                    },
+                    );
                   },
                 ),
-              ),
-              Card(
-                surfaceTintColor: Colors.white,
-                clipBehavior: Clip.hardEdge,
-                child: ListTile(
-                  title: Text(
-                    'Parent Web Interface',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  onTap: () {
-                    _openUrl('https://webstream.sastra.edu/sastraparentweb/').catchError((e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Could not open URL!',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
-                              ),
-                              backgroundColor: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          );
-                        },
-                      );
-                  },
-                ),
-              ),
-              Card(
-                surfaceTintColor: Colors.white,
-                clipBehavior: Clip.hardEdge,
-                child: ListTile(
-                  title: Text(
-                    'Hostel Leave Portal',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  onTap: () {
-                    _openUrl('https://biometric.sastra.edu/').catchError((e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Could not open URL!',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
-                              ),
-                              backgroundColor: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          );
-                        },
-                      );
-                  },
-                ),
-              ),
-              Card(
-                surfaceTintColor: Colors.white,
-                clipBehavior: Clip.hardEdge,
-                child: ListTile(
-                  title: Text(
-                    'Academic Calendar',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  onTap: () {
-                    _openUrl('https://www.sastra.edu/downloads/menu/Academics/Academic_Calender_2023_24_TPJ.pdf').catchError((e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Could not open URL!',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
-                              ),
-                              backgroundColor: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          );
-                        },
-                      );
-                  },
-                ),
-              ),
-            ],
+              );
+            },
           ),
           const SizedBox(height: 16),
           Text(
@@ -313,17 +241,18 @@ class _MoreWidgetState extends State<MoreWidget> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          ListView(
+          ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              Card (
+            itemCount: _archives.length,
+            itemBuilder: (context, index) {
+              return Card(
                 surfaceTintColor: Colors.white,
                 clipBehavior: Clip.hardEdge,
                 child: ListTile(
                   title: Text(
-                    'Materialbase',
+                    _archives[index]['title']!,
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -333,68 +262,28 @@ class _MoreWidgetState extends State<MoreWidget> {
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   onTap: () {
-                    _openUrl('https://materialbase.github.io').catchError((e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Could not open URL!',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
+                    _openUrl(_archives[index]['url']!).catchError((e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Center(
+                            child: Text(
+                              'Could not open URL!',
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Colors.white,
                               ),
-                              backgroundColor: Theme.of(context).colorScheme.tertiary,
                             ),
-                          );
-                        },
+                          ),
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
                       );
+                    },
+                    );
                   },
                 ),
-              ),
-              Card(
-                surfaceTintColor: Colors.white,
-                clipBehavior: Clip.hardEdge,
-                child: ListTile(
-                  title: Text(
-                    'Materialhub',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                  onTap: () {
-                    _openUrl('https://linktr.ee/materialhub').catchError((e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Center(
-                                  child: Text(
-                                    'Could not open URL!',
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                  ),
-                                ),
-                                backgroundColor: Theme.of(context).colorScheme.tertiary,
-                              ),
-                            );
-                          },
-                        );
-                  },
-                ),
-              ),
-            ],
+              );
+            },
           ),
           const SizedBox(height: 16),
-          Text(
-            'Crafted with ❤️ by Harshitha',
-            style: Theme.of(context).textTheme.titleSmall,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
           Text(
             'v$_version+$_buildNumber',
             style: const TextStyle(

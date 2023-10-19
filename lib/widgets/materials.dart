@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unitastic_mobile/pages/semester.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MaterialsWidget extends StatefulWidget {
   const MaterialsWidget({super.key});
@@ -14,9 +15,24 @@ class _MaterialsWidgetState extends State<MaterialsWidget> {
   late Future<List<Map<String,dynamic>>> _materials;
 
   Future<List<Map<String,dynamic>>> _getMaterials() async {
+    final prefs = await SharedPreferences.getInstance();
+    DateTime lastUpdated = DateTime.parse(
+      prefs.getString('semesterLastUpdated') ?? '2000-01-01 00:00:00.000',
+    );
+    bool isDirty = DateTime.now().difference(lastUpdated).inHours > 24;
+
     final db = FirebaseFirestore.instance;
     final semestersRef = db.collection('semesters');
-    final semesters = await semestersRef.orderBy('name').get();
+    QuerySnapshot<Map<String, dynamic>> semesters;
+    semesters = await semestersRef.orderBy('name').get(
+      const GetOptions(source: Source.cache),
+    );
+    if (semesters.size == 0 || isDirty) {
+      semesters = await semestersRef.orderBy('name').get(
+        const GetOptions(source: Source.server),
+      );
+      prefs.setString('semesterLastUpdated', DateTime.now().toString());
+    }
     final List<Map<String,dynamic>> materials = [];
     for (var semester in semesters.docs) {
       final semesterData = semester.data();

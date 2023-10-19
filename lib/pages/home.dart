@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unitastic_mobile/widgets/home.dart';
 import 'package:unitastic_mobile/widgets/materials.dart';
 import 'package:unitastic_mobile/widgets/more.dart';
 import 'package:unitastic_mobile/widgets/utilities.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  bool _access = false;
 
   final List<Widget> _widgets = [
     const HomeWidget(),
@@ -22,10 +25,23 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    final db = FirebaseFirestore.instance;
+    db.collection('env').doc('access').get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          _access = documentSnapshot['overall'];
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = PageController();
 
-    return Scaffold(
+    return _access ? Scaffold(
       appBar: AppBar(
         title: Text('Unitastic',
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
@@ -89,6 +105,32 @@ class _HomePageState extends State<HomePage> {
             NavigationDestination(
               icon: Icon(Icons.more_horiz),
               label: 'More',
+            ),
+          ],
+        ),
+      ),
+    ) : Scaffold(
+      appBar: AppBar(
+        title: Text('Unitastic',
+          style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
+        scrolledUnderElevation: 0,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/error.svg',
+              width: 300,
+            ),
+            const SizedBox(height: 16),
+            Text('Under maintenance!',
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
             ),
           ],
         ),
