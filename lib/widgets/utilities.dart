@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:unitastic_mobile/pages/cgpa.dart';
+import 'package:unitastic_mobile/pages/externals.dart';
+import 'package:unitastic_mobile/pages/requiredsgpa.dart';
+import 'package:unitastic_mobile/pages/sgpa.dart';
+import 'package:unitastic_mobile/pages/skippability.dart';
 
 class UtilitiesWidget extends StatelessWidget {
   UtilitiesWidget({super.key});
 
-  final List<Map<String,String>> utilities = [
+  final List<Map<String,dynamic>> utilities = [
     {
       'name': 'SGPA Calculator',
-      'url': 'https://unitastic.netlify.app/sgpa',
+      'widget': const SGPACalculator(),
     },
     {
       'name': 'CGPA Calculator',
-      'url': 'https://unitastic.netlify.app/cgpa',
+      'widget': const CGPACalculator(),
     },
     {
       'name': 'Required SGPA',
-      'url': 'https://unitastic.netlify.app/targetcgpa',
+      'widget': const RequiredSGPACalculator(),
     },
     {
       'name': 'Expected Externals',
-      'url': 'https://unitastic.netlify.app/externals',
+      'widget': const ExternalsCalculator(),
     },
     {
       'name': 'Class Skippability',
-      'url': 'https://unitastic.netlify.app/attendance',
+      'widget': const SkippabilityCalculator(),
     }
   ];
-
-  Future<void> _openUrl(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception("Could not launch $url");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,33 +63,15 @@ class UtilitiesWidget extends StatelessWidget {
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                   onTap: () {
-                    _openUrl(utilities[index]['url']!);
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => utilities[index]['widget']!,
+                      ),
+                    );
                   },
                 ),
               );
             },
-          ),
-          const SizedBox(height: 24.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              'Note',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              'Calculators are currently under the process of being '
-                  'implemented natively in the app.\n\nUntil then, the above '
-                  'buttons will take you to the web version of the calculators.',
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Colors.grey,
-              ),
-              textAlign: TextAlign.center,
-            ),
           ),
         ],
       ),
