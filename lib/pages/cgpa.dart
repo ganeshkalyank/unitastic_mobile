@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class CGPACalculator extends StatefulWidget {
@@ -40,6 +41,14 @@ class _CGPACalculatorState extends State<CGPACalculator> {
           break;
       }
     }
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logEvent(
+      name: 'calculated_cgpa',
+      parameters: {
+        'semesters': _semesters,
+        'cgpa': _cgpa,
+      }
+    );
     setState(() {
       _cgpa = (totalPoints / totalCredits).toStringAsFixed(4);
     });

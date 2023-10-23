@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class SGPACalculator extends StatefulWidget {
@@ -40,6 +41,14 @@ class _SGPACalculatorState extends State<SGPACalculator> {
           break;
       }
     }
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logEvent(
+      name: 'calculated_sgpa',
+      parameters: {
+        'subjects': _subjects,
+        'sgpa': _sgpa,
+      }
+    );
     setState(() {
       _sgpa = (totalPoints / totalCredits).toStringAsFixed(4);
     });

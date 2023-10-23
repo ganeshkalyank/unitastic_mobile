@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class RequiredSGPACalculator extends StatefulWidget {
@@ -17,7 +18,17 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
   void calculateRequiredSGPA(){
     double x = _cgpaGoal * (_currentSemesterCredits + _creditsTillLastSemester);
     double y = _currentCGPA * _creditsTillLastSemester;
-    print((x - y) / _currentSemesterCredits);
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logEvent(
+      name: 'calculated_sgpa',
+      parameters: {
+        'cgpaGoal': _cgpaGoal,
+        'currentCGPA': _currentCGPA,
+        'currentCredits': _currentSemesterCredits,
+        'pastCredits': _creditsTillLastSemester,
+        'sgpa': _requiredSGPA,
+      }
+    );
     setState(() {
       _requiredSGPA = ((x - y) / _currentSemesterCredits);
     });

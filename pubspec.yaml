@@ -2,7 +2,7 @@ name: unitastic_mobile
 description: A cross-platform mobile application for Unitastic.
 publish_to: 'none'
 
-version: 0.2.0+1
+version: 0.2.1+1
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -21,6 +21,7 @@ dependencies:
   package_info_plus: ^4.2.0
   http: ^1.1.0
   shared_preferences: ^2.2.2
+  firebase_analytics: ^10.6.1
 
 dev_dependencies:
   flutter_test:

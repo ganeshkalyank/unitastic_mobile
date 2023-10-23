@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class SkippabilityCalculator extends StatefulWidget {
@@ -13,6 +14,15 @@ class _SkippabilityCalculatorState extends State<SkippabilityCalculator> {
   int _skippable = 0;
 
   void calculateSkippable() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.logEvent(
+      name: 'calculated_attendance',
+      parameters: {
+        'credits': _credits,
+        'bunked': _skipped,
+        'canBunk': _skippable,
+      }
+    );
     setState(() {
       _skippable = ((_credits * 16 * 0.2) - _skipped).floor();
     });
