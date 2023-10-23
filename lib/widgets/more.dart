@@ -83,7 +83,7 @@ class _MoreWidgetState extends State<MoreWidget> {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -283,6 +283,13 @@ class _MoreWidgetState extends State<MoreWidget> {
               );
             },
           ),
+          // const SizedBox(height: 16),
+          /*const Text(
+            'Crafted with ❤️ by Bathula Harshitha',
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),*/
           const SizedBox(height: 16),
           Text(
             'v$_version+$_buildNumber',
