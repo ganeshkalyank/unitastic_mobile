@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 class ExternalsCalculator extends StatefulWidget {
@@ -70,6 +71,10 @@ class _ExternalsCalculatorState extends State<ExternalsCalculator> {
                   labelText: 'Internal Marks',
                 ),
                 onChanged: (value) {
+                  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+                  analytics.logEvent(name: 'calculate_externals', parameters: {
+                    'internals': _internalMarks,
+                  });
                   setState(() {
                     _internalMarks = int.parse(value);
                   });
