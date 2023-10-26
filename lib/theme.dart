@@ -94,7 +94,7 @@ final ThemeData mainTheme = ThemeData(
       textStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
-        color: Colors.grey,
+        color: Colors.black,
       ),
     ),
     hintStyle: GoogleFonts.josefinSans(
