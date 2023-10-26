@@ -17,29 +17,7 @@ class _CGPACalculatorState extends State<CGPACalculator> {
     double totalPoints = 0;
     for (var semester in _semesters) {
       totalCredits += semester['credits'];
-      switch (semester['grade']) {
-        case 'S':
-          totalPoints += 10 * semester['credits'];
-          break;
-        case 'A+':
-          totalPoints += 9 * semester['credits'];
-          break;
-        case 'A':
-          totalPoints += 8 * semester['credits'];
-          break;
-        case 'B':
-          totalPoints += 7 * semester['credits'];
-          break;
-        case 'C':
-          totalPoints += 6 * semester['credits'];
-          break;
-        case 'D':
-          totalPoints += 5 * semester['credits'];
-          break;
-        case 'F':
-          totalPoints += 0 * semester['credits'];
-          break;
-      }
+      totalPoints += semester['credits'] * double.parse(semester['sgpa']);
     }
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logEvent(
@@ -102,7 +80,7 @@ class _CGPACalculatorState extends State<CGPACalculator> {
                   setState(() {
                     _semesters.add({
                       'credits': 0,
-                      'grade': 'S',
+                      'sgpa': '0.0',
                     });
                   });
                 },
@@ -150,30 +128,17 @@ class _CGPACalculatorState extends State<CGPACalculator> {
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.3,
-                            child: DropdownButtonFormField<String>(
+                            child: TextField(
                               decoration: const InputDecoration().applyDefaults(
                                   Theme.of(context).inputDecorationTheme
                               ).copyWith(
-                                labelText: 'Grade',
+                                labelText: 'SGPA',
                               ),
-                              value: _semesters[index]['grade'],
                               onChanged: (value) {
                                 setState(() {
-                                  _semesters[index]['grade'] = value!;
+                                  _semesters[index]['sgpa'] = value;
                                 });
                               },
-                              items: ['S', 'A+', 'A', 'B', 'C', 'D', 'F',]
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
                             ),
                           ),
                           CircleAvatar(
