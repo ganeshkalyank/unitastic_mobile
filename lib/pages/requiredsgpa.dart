@@ -52,6 +52,7 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -88,6 +89,9 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
                     _cgpaGoal = double.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(
                 height: 16.0,
@@ -103,6 +107,9 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
                     _currentCGPA = double.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(
                 height: 16.0,
@@ -118,6 +125,9 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
                     _currentSemesterCredits = int.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(
                 height: 16.0,
@@ -133,6 +143,9 @@ class _RequiredSGPACalculatorState extends State<RequiredSGPACalculator> {
                     _creditsTillLastSemester = int.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const Divider(
                 color: Colors.grey,

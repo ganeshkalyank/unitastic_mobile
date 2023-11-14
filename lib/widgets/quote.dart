@@ -51,9 +51,10 @@ class _QuoteWidgetState extends State<QuoteWidget> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
               width: MediaQuery.of(context).size.width,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.primaryContainer,
               child: LinearProgressIndicator(
                 color: Theme.of(context).colorScheme.tertiary,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               ),
             );
           }
@@ -62,7 +63,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
             return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
                 width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 child: Column(
                   children: [
                     Text(
@@ -86,7 +87,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.primaryContainer,
             child: Column(
               children: [
                 Text(
@@ -108,7 +109,7 @@ class _QuoteWidgetState extends State<QuoteWidget> {
                 Text(
                   '- ${snapshot.data!.author}',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.black54,
+                    color: Theme.of(context).colorScheme.primary,
                     fontStyle: FontStyle.italic,
                   ),
                 ),

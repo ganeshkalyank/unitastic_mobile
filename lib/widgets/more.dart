@@ -88,7 +88,8 @@ class _MoreWidgetState extends State<MoreWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Card(
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 clipBehavior: Clip.hardEdge,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -102,7 +103,7 @@ class _MoreWidgetState extends State<MoreWidget> {
                                 child: Text(
                                   'Could not open URL!',
                                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.primary,
                                       ),
                                 ),
                               ),
@@ -133,7 +134,8 @@ class _MoreWidgetState extends State<MoreWidget> {
                 ),
               ),
               Card(
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 clipBehavior: Clip.hardEdge,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -190,7 +192,9 @@ class _MoreWidgetState extends State<MoreWidget> {
           const SizedBox(height: 16),
           Text(
             'Useful Links',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           const SizedBox(height: 8),
           ListView.builder(
@@ -200,7 +204,8 @@ class _MoreWidgetState extends State<MoreWidget> {
             itemCount: _usefulLinks.length,
             itemBuilder: (context, index) {
               return Card(
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 clipBehavior: Clip.hardEdge,
                 child: ListTile(
                   title: Text(
@@ -238,7 +243,9 @@ class _MoreWidgetState extends State<MoreWidget> {
           const SizedBox(height: 16),
           Text(
             'Archives',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           const SizedBox(height: 8),
           ListView.builder(
@@ -248,7 +255,8 @@ class _MoreWidgetState extends State<MoreWidget> {
             itemCount: _archives.length,
             itemBuilder: (context, index) {
               return Card(
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 clipBehavior: Clip.hardEdge,
                 child: ListTile(
                   title: Text(

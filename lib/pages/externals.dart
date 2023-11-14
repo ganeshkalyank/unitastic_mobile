@@ -38,6 +38,7 @@ class _ExternalsCalculatorState extends State<ExternalsCalculator> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -79,6 +80,9 @@ class _ExternalsCalculatorState extends State<ExternalsCalculator> {
                     _internalMarks = int.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const Divider(
                 color: Colors.grey,

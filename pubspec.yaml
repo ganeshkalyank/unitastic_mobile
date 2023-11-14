@@ -2,7 +2,7 @@ name: unitastic_mobile
 description: A cross-platform mobile application for Unitastic.
 publish_to: 'none'
 
-version: 0.2.3+4
+version: 0.3.0+5
 
 environment:
   sdk: '>=3.1.0 <4.0.0'

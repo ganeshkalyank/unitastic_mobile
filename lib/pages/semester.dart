@@ -161,6 +161,7 @@ class _SemesterPageState extends State<SemesterPage> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
@@ -169,6 +170,7 @@ class _SemesterPageState extends State<SemesterPage> {
               if (!snapshot.hasData) {
                 return LinearProgressIndicator(
                   color: Theme.of(context).colorScheme.tertiary,
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 );
               }
               if (snapshot.hasError || snapshot.data!.isEmpty) {
@@ -221,7 +223,8 @@ class _SemesterPageState extends State<SemesterPage> {
                       itemBuilder: (context, index) {
                         final subject = snapshot.data![index];
                         return Card(
-                          surfaceTintColor: Colors.white,
+                          surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                           clipBehavior: Clip.hardEdge,
                           child: ListTile(
                             title: Text(
