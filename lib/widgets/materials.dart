@@ -60,6 +60,7 @@ class _MaterialsWidgetState extends State<MaterialsWidget> {
             if (!snapshot.hasData) {
               return LinearProgressIndicator(
                 color: Theme.of(context).colorScheme.tertiary,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               );
             }
             if (snapshot.hasError || snapshot.data!.isEmpty) {
@@ -104,7 +105,8 @@ class _MaterialsWidgetState extends State<MaterialsWidget> {
                     itemBuilder: (context, index) {
                       final semester = snapshot.data![index];
                       return Card(
-                        surfaceTintColor: Colors.white,
+                        surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         clipBehavior: Clip.hardEdge,
                         child: ListTile(
                           title: Text(

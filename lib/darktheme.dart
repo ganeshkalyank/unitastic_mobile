@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final ThemeData mainTheme = ThemeData(
+final ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSwatch().copyWith(
-    primary: const Color(0xFF222831),
-    secondary: const Color(0xFF393E46),
+    primary: const Color(0xFFFFFFFF),
+    secondary: const Color(0xFFEEEEEE),
     tertiary: const Color(0xFF00ADB5),
-    background: const Color(0xFFEEEEEE),
-    primaryContainer: const Color(0xFFFFFFFF),
+    background: const Color(0xFF393E46),
+    primaryContainer: const Color(0xFF222831),
   ),
   textTheme: TextTheme(
     displayLarge: GoogleFonts.pacifico(
@@ -95,7 +95,7 @@ final ThemeData mainTheme = ThemeData(
       textStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     hintStyle: GoogleFonts.josefinSans(
@@ -104,6 +104,7 @@ final ThemeData mainTheme = ThemeData(
         fontWeight: FontWeight.normal,
       ),
     ),
+
   ),
   useMaterial3: true,
 );

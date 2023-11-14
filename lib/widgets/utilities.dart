@@ -39,7 +39,9 @@ class UtilitiesWidget extends StatelessWidget {
         children: [
           Text(
             'Utilities',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           const SizedBox(height: 16.0),
           ListView.builder(
@@ -49,7 +51,8 @@ class UtilitiesWidget extends StatelessWidget {
             itemCount: utilities.length,
             itemBuilder: (context, index) {
               return Card(
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 clipBehavior: Clip.hardEdge,
                 child: ListTile(
                   title: Text(

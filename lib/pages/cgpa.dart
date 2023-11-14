@@ -50,6 +50,7 @@ class _CGPACalculatorState extends State<CGPACalculator> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -124,6 +125,9 @@ class _CGPACalculatorState extends State<CGPACalculator> {
                                   _semesters[index]['credits'] = int.parse(value);
                                 });
                               },
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -139,6 +143,9 @@ class _CGPACalculatorState extends State<CGPACalculator> {
                                   _semesters[index]['sgpa'] = value;
                                 });
                               },
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                           CircleAvatar(

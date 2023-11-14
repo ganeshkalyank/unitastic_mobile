@@ -46,6 +46,7 @@ class _SkippabilityCalculatorState extends State<SkippabilityCalculator> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -82,6 +83,9 @@ class _SkippabilityCalculatorState extends State<SkippabilityCalculator> {
                     _credits = int.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(
                 height: 16.0,
@@ -97,6 +101,9 @@ class _SkippabilityCalculatorState extends State<SkippabilityCalculator> {
                     _skipped = int.parse(value);
                   });
                 },
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const Divider(
                 color: Colors.grey,

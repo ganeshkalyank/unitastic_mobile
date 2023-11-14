@@ -72,6 +72,7 @@ class _SGPACalculatorState extends State<SGPACalculator> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -146,6 +147,9 @@ class _SGPACalculatorState extends State<SGPACalculator> {
                                   _subjects[index]['credits'] = int.parse(value);
                                 });
                               },
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                           SizedBox(

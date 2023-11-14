@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: PageView(
         controller: controller,
@@ -66,7 +67,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          surfaceTintColor: Colors.white,
+          surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           labelTextStyle: MaterialStateProperty.all<TextStyle>(
             Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.primary,
