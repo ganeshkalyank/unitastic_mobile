@@ -6,8 +6,8 @@ final ThemeData darkTheme = ThemeData(
     primary: const Color(0xFFFFFFFF),
     secondary: const Color(0xFFEEEEEE),
     tertiary: const Color(0xFF00ADB5),
-    background: const Color(0xFF393E46),
-    primaryContainer: const Color(0xFF222831),
+    primaryContainer: const Color(0xFF393E46),
+    background: const Color(0xFF222831),
   ),
   textTheme: TextTheme(
     displayLarge: GoogleFonts.pacifico(
