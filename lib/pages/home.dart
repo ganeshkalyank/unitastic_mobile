@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   bool _access = false;
 
   final List<Widget> _widgets = [
@@ -43,7 +43,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = PageController();
+    final controller = PageController(
+      initialPage: _selectedIndex,
+    );
 
     return _access ? Scaffold(
       appBar: AppBar(
