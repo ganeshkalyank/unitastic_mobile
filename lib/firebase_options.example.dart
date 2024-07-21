@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCopLa77po5Nbmk2T_64Rn0WAJQsF8FvFo',
-    appId: '1:766053727591:android:92355f2fdbeda4897003c2',
-    messagingSenderId: '766053727591',
-    projectId: 'unitasticsastra',
-    storageBucket: 'unitasticsastra.appspot.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAtaHhqmfX-LbBXUW1rBHoyaPPM1uiiw1Q',
-    appId: '1:766053727591:ios:ee09d015da8668867003c2',
-    messagingSenderId: '766053727591',
-    projectId: 'unitasticsastra',
-    storageBucket: 'unitasticsastra.appspot.com',
-    iosBundleId: 'in.ganeshkalyan.unitastic.mobile.unitasticMobile',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosBundleId: '',
   );
 }
