@@ -21,7 +21,7 @@ dependencies:
   package_info_plus: ^5.0.1
   http: ^1.2.0
   shared_preferences: ^2.2.2
-  firebase_analytics: ^10.8.5
+  firebase_analytics: ^10.8.9
 
 dev_dependencies:
   flutter_test:
