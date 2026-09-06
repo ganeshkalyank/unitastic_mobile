@@ -10,17 +10,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
-  flutter_launcher_icons: ^0.13.1
+  cupertino_icons: ^1.0.9
+  flutter_launcher_icons: ^0.14.4
   google_fonts: ^6.1.0
-  flutter_svg: ^2.0.9
+  flutter_svg: ^2.3.0
   firebase_core: ^2.25.4
   cloud_firestore: ^4.15.4
-  url_launcher: ^6.2.4
-  flutter_native_splash: ^2.3.10
-  package_info_plus: ^5.0.1
-  http: ^1.2.0
-  shared_preferences: ^2.2.2
+  url_launcher: ^6.3.2
+  flutter_native_splash: ^2.4.8
+  package_info_plus: ^8.0.2
+  http: ^1.6.0
+  shared_preferences: ^2.5.5
   firebase_analytics: ^10.8.5
 
 dev_dependencies:
