@@ -14,7 +14,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
-  firebase_core: ^2.25.4
+  firebase_core: ^2.27.0
   cloud_firestore: ^4.15.4
   url_launcher: ^6.2.4
   flutter_native_splash: ^2.3.10
